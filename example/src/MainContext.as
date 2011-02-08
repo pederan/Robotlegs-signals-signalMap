@@ -22,6 +22,7 @@ package
 		{
 			super(contextView, autoStartup);
 			var signalMap:ISignalMap = new SignalMap(injector);
+			injector.mapValue(ISignalMap, signalMap); //map if needed injected later
 			signalMap.createSignal("punched", String, Boolean);
 			signalMap.createSignal("punchedBack", String);
 			

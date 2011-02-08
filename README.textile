@@ -1,0 +1,31 @@
+h2. SignalMap
+
+Just an idea that I wanted to try out after reading a discussionbetween @jhooks, @matanube and @mark_star about whether or not to use a signal bus in Robotlegs. 
+Wanted to make a create a helper class for quicker adding and mappingnew signals to the application. 
+
+h3. Rationale 
+
+When using as3 signals in Robotlegs you need to subclass the Signal class and map it, or use a signal bus. The subclassing approach can make you need 
+to manually create and map many classes. On the other hand, @jhooks says that "monolithic controllers tend to break SRP and are generally prone to abuse exposing too much to too many actors." 
+
+Using the SignalMap you can create a new Signal and map either in your main setup or on the fly.
+
+h3. Usage
+
+Create a new instance of SignalMap (map it if you need to access the signal map in other application tiers) in your main context or your command setup class
+
+pre. var signalMap:ISignalMap = new SignalMap(injector);
+injector.mapValue(ISignalMap, signalMap); //map if needed injected later
+
+Start creating and mapping your signals (you can pass as many parameters as you need)
+pre. signalMap.createSignal(nameOfSignal:String, parameters);
+
+Then in your mediator, command or actor inject the signal by using the named injection option. The name needs to be the same as used when creating the signal.
+
+pre. [Inject(name="nameOfSignal")]
+public var signalName:Signal;
+
+See the example files for a working example.
+
+Feedback welcomed.
+
