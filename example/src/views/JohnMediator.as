@@ -16,6 +16,9 @@ package views
 		[Inject(name="punchedBack")]
 		public var punchedBack:Signal;
 		
+		[Inject(name="actionSignal")]
+		public var actionSignal:Signal;
+		
 		override public function onRegister():void
 		{
 			punched.add(onPunched);
@@ -25,6 +28,7 @@ package views
 		{
 			trace("JohnMediator.onPunched() says:", value, hardPunch);
 			punchedBack.dispatch("Don't ever punch me agaign! It hurst.");
+			actionSignal.dispatch(); //call signal that creates a new action command instance
 		}
 	}
 }

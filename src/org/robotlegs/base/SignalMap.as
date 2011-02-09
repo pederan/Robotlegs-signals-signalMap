@@ -23,13 +23,15 @@ package org.robotlegs.base
 			signals = new Dictionary();
 		}
 		
-		public function createSignal(signalName:String, ...args):void
+		public function createSignal(signalName:String, ...args):Signal
 		{
 			trace("SignalMap.createSignal", signalName, args);
 			var signal:Signal = new Signal(args);
 			injector.mapValue(Signal, signal, signalName);
 			if(!signals[signalName])
 				signals[signalName] = signal;
+			
+			return signals[signalName];
 		}
 
 		public function deleteSignal(signalName:String):void

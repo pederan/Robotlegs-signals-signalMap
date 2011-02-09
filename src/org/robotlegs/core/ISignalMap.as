@@ -1,5 +1,6 @@
 package org.robotlegs.core
 {
+	import org.osflash.signals.Signal;
 	/**
 	 * @author Peder A. Nielsen - Mediafront
 	 * @date Feb 8, 2011
@@ -7,7 +8,7 @@ package org.robotlegs.core
 	 */
 	public interface ISignalMap
 	{
-		function createSignal(signalName:String, ...args):void
+		function createSignal(signalName:String, ...args):Signal
 		function deleteSignal(signalName:String):void
 		function hasSignal(signalName:String):Boolean
 	}
