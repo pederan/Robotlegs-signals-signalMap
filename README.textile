@@ -1,7 +1,7 @@
 h2. SignalMap
 
 Just an idea that I wanted to try out after reading a discussion between @jhooks, @matanube and @mark_star about whether or not to use a signal bus in Robotlegs. 
-Wanted to make a create a helper class for quicker adding and mappingnew signals to the application. 
+Wanted to make a create a helper class for quicker adding and mapping new signals to the application.
 
 h3. Rationale 
 
@@ -19,14 +19,29 @@ injector.mapValue(ISignalMap, signalMap); //map if needed injected later
 
 Start creating and mapping your signals (you can pass as many parameters as you need)
 
-pre. signalMap.createSignal(nameOfSignal:String, parameters);
+pre. var signal:Signal = signalMap.createSignal(nameOfSignal:String, parameters);
+
+You can also create and map signals to trigger commands
+
+pre. var setupSignal:Signal = signalMap.createSignal("setupSignal");
+signalCommandMap.mapSignal(setupSignal, SetupCommand, true);
+
+Then to trigger the command you can call:
+
+pre. setupSignal.dispatch();
 
 Then in your mediator, command or actor inject the signal by using the named injection option. The name needs to be the same as used when creating the signal.
 
 pre. [Inject(name="nameOfSignal")]
 public var signalName:Signal;
 
+Then dispatch the signal somewhere in your code
+
+pre. signalName.dispatch(signalParameters)
+
 See the example files for a working example.
+
+Just to note: The creation and injection of the SignalMap class should probably be baked into the framework so that you don't have to initialize and map it. Wanted to test before doing more work. 
 
 Feedback welcomed.
 
