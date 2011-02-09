@@ -2,8 +2,7 @@ package
 {
 	import commands.SetupCommand;
 
-	import signals.ApplicationStartedSignal;
-
+	import org.osflash.signals.Signal;
 	import org.robotlegs.base.SignalMap;
 	import org.robotlegs.core.ISignalMap;
 	import org.robotlegs.mvcs.SignalContext;
@@ -23,8 +22,10 @@ package
 			var signalMap:ISignalMap = new SignalMap(injector);
 			injector.mapValue(ISignalMap, signalMap); //map for injection in SetupCommand
 			
-			ApplicationStartedSignal(signalCommandMap.mapSignalClass(ApplicationStartedSignal, SetupCommand, true)).dispatch();
-			
+			//map setup command and fire the signal
+			var setupSignal:Signal = signalMap.createSignal("setupSignal");
+			signalCommandMap.mapSignal(setupSignal, SetupCommand, true);
+			setupSignal.dispatch();
 		}
 	}
 }
