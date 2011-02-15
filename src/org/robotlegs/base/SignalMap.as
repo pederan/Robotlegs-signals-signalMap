@@ -25,7 +25,6 @@ package org.robotlegs.base
 		
 		public function createSignal(signalName:String, ...args):Signal
 		{
-			trace("SignalMap.createSignal", signalName, args);
 			var signal:Signal = new Signal(args);
 			injector.mapValue(Signal, signal, signalName);
 			if(!signals[signalName])

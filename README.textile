@@ -1,14 +1,13 @@
 h2. SignalMap
 
 Just an idea that I wanted to try out after reading a discussion between @jhooks, @matanube and @mark_star about whether or not to use a signal bus in Robotlegs. 
-Wanted to make a create a helper class for quicker adding and mapping new signals to the application.
+Wanted to make a create a helper class for quicker adding and mapping new signals to the application. It should be noted that subclassing or using a signal bus is perfectly fine, but that I wanted make a more automatic way to achieve the same thing.
 
 h3. Rationale 
 
-When using as3 signals in Robotlegs you need to subclass the Signal class and map it, or use a signal bus. The subclassing approach can make you need 
-to manually create and map many classes. On the other hand, @jhooks says that "monolithic controllers tend to break SRP and are generally prone to abuse exposing too much to too many actors." 
+When using as3 signals in Robotlegs you can either subclass the Signal class and map, or use a signal bus. One of the disadvantage of subclassing the Signal class for all your custom signals is that you may need to manually create and map many classes. On the other hand, using a signalbus, breaks the idea of dependency injection where you only should provide your application tiers with what they need. As @jhooks states: "monolithic controllers tend to break SRP and are generally prone to abuse exposing too much to too many actors." 
 
-Using the SignalMap you can create a new Signal and map it either in your main setup or on the fly.
+The SignalMap provides a central that creates and maps your signals for you. 
 
 h3. Usage
 
@@ -17,20 +16,20 @@ Create a new instance of SignalMap in your main context or your command setup cl
 pre. var signalMap:ISignalMap = new SignalMap(injector);
 injector.mapValue(ISignalMap, signalMap); //map if needed injected later
 
-Start creating and mapping your signals (you can pass as many parameters as you need)
+Start creating your signals using the signalMap (you can pass as many parameters as you need). The signals get mapped in the SignalMap.
 
 pre. var signal:Signal = signalMap.createSignal(nameOfSignal:String, parameters);
 
-You can also create and map signals to trigger commands
+You can also create and map signals to trigger commands using the SignalCommandMap
 
 pre. var setupSignal:Signal = signalMap.createSignal("setupSignal");
 signalCommandMap.mapSignal(setupSignal, SetupCommand, true);
 
-Then to trigger the command you can call:
+Then to trigger the command you can dispatch the signal:
 
 pre. setupSignal.dispatch();
 
-Then in your mediator, command or actor inject the signal by using the named injection option. The name needs to be the same as used when creating the signal.
+In your mediator, command or actor inject the signal you need by using the named injection option. The name needs to be the same as used when creating the signal.
 
 pre. [Inject(name="nameOfSignal")]
 public var signalName:Signal;
